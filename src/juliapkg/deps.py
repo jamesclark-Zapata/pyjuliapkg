@@ -210,6 +210,7 @@ def required_julia():
     import json
     compats = {}
     for fn in deps_files():
+        logger.info(f"trying to read {fn}")
         with open(fn) as fp:
             try:
                 deps = json.load(fp)
