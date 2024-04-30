@@ -211,7 +211,11 @@ def required_julia():
     compats = {}
     for fn in deps_files():
         with open(fn) as fp:
-            deps = json.load(fp)
+            try:
+                deps = json.load(fp)
+            except json.JSONDecodeError as e:
+                logger.error(f"failed to read {fn}. contents: '{e.doc}'")
+                continue
             c = deps.get("julia")
             if c is not None:
                 compats[fn] = Compat.parse(c)
